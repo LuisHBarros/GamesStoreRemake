@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                   String    @id @unique @default(uuid())
+  name                 String
+  email                String    @unique
+  password             String
+  adm                  Boolean   @default(false)
+  passwordResetToken   String?
+  passwordResetExpires DateTime?
+  created_at           DateTime  @default(now())
+}
+
+model Product {
+  id          String @id @unique @default(uuid())
+  name        String @unique
+  description String
+  price       Int
+  stock       Int
+  image       String
+}
+
+model DonePayments {
+  id             String    @id @unique @default(uuid())
+  session_id     String    @unique
+  customer_name  String
+  customer_email String
+  payment_status String
+  subtotal       Int
+  total          Int
+  products       String[]
+  created_at     DateTime  @default(now())
+  paid_at        DateTime?
+}

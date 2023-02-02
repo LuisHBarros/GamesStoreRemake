@@ -1,0 +1,12 @@
+coverage
+.idea/
+.vscode/
+node_modules/
+build/
+temp/
+.env
+ormconfig.json
+dist
+*.txt
+.docker/dbdata
+uploads/

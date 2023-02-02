@@ -1,0 +1,36 @@
+Arguments: 
+  /home/luish/.nvm/versions/node/v18.13.0/bin/node /home/luish/.nvm/versions/node/v18.13.0/bin/yarn init
+
+PATH: 
+  /home/luish/.nvm/versions/node/v18.13.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files/Common Files/Oracle/Java/javapath:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/Docker/Docker/resources/bin:/mnt/c/Program Files/Git/cmd:/mnt/c/ProgramData/chocolatey/bin:/mnt/c/tools/php82:/mnt/c/ProgramData/ComposerSetup/bin:/mnt/c/Program Files/nodejs/:/mnt/c/Program Files (x86)/Yarn/bin/:/mnt/c/Users/luish/AppData/Local/Programs/Python/Python311/Scripts/:/mnt/c/Users/luish/AppData/Local/Programs/Python/Python311/:/mnt/c/Users/luish/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/luish/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Users/luish/AppData/Local/JetBrains/Toolbox/scripts:/mnt/c/Users/luish/AppData/Roaming/Composer/vendor/bin:/mnt/c/Users/luish/AppData/Roaming/npm:/mnt/c/Users/luish/AppData/Local/Yarn/bin
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  18.13.0
+
+Platform: 
+  linux x64
+
+Trace: 
+  Error: canceled
+      at Interface.<anonymous> (/home/luish/.nvm/versions/node/v18.13.0/lib/node_modules/yarn/lib/cli.js:137150:13)
+      at Interface.emit (node:events:513:28)
+      at [_ttyWrite] [as _ttyWrite] (node:internal/readline/interface:1130:18)
+      at ReadStream.onkeypress (node:internal/readline/interface:270:20)
+      at ReadStream.emit (node:events:513:28)
+      at emitKeys (node:internal/readline/utils:357:14)
+      at emitKeys.next (<anonymous>)
+      at ReadStream.onData (node:internal/readline/emitKeypressEvents:64:36)
+      at ReadStream.emit (node:events:513:28)
+      at addChunk (node:internal/streams/readable:324:12)
+
+npm manifest: 
+  No manifest
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
