@@ -13,7 +13,6 @@ export class ListProductsService {
 		private cacheService: ICache,
 	) {}
 	public async execute(): Promise<IProduct[]> {
-		console.log('sim');
 		let products = await this.cacheService.recover<IProduct[]>(
 			'api-vendas-PRODUCT_LIST',
 		);

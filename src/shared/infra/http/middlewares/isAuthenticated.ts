@@ -18,16 +18,13 @@ export class isAuthenticated {
 		const authHeader = req.headers.authorization;
 		if (!authHeader) throw new AppError('Missing authorization header', 401);
 		const [, token] = authHeader.split(' ');
-		// console.log('achou o token');
 		try {
 			const decodedToken = verify(token, authConfig.token.secret);
-			console.log('verificou o token');
 			const { sub } = decodedToken as ITokenPayload;
 			req.user = {
 				id: sub,
 			};
 			const blacklist = await search(`${'token'}-${'user_id'}`);
-			console.log(blacklist);
 			if (blacklist === token) {
 				throw Error('Token in blacklist');
 			}

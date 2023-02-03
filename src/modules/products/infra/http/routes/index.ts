@@ -29,8 +29,8 @@ productRouter
 		'/',
 		celebrate({
 			[Segments.BODY]: {
-				name: Joi.string().uuid().required(),
-				description: Joi.string().uuid().required(),
+				name: Joi.string().required(),
+				description: Joi.string().required(),
 				price: Joi.number().required(),
 				stock: Joi.number().required(),
 				image: Joi.any().required(),

@@ -14,6 +14,7 @@ export class CreateProductService {
 		private cacheService: ICache,
 	) {}
 	public async execute(data: ICreateProduct): Promise<IProduct> {
+		console.log('sim');
 		await this.cacheService.invalidate('api-vendas_PRODUCT_LIST');
 		return this.productsRepository.create(data);
 	}

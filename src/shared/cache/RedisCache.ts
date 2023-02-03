@@ -7,7 +7,6 @@ export class RedisCache implements ICache {
 
 	constructor() {
 		this.client = new Redis(redisConfig.config.redis);
-		console.log('redis!');
 	}
 	public async save(key: string, value: any): Promise<void> {
 		await this.client.set(key, JSON.stringify(value));
