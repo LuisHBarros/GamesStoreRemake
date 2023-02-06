@@ -18,11 +18,15 @@ export default class ProductsRepository implements IProductRepository {
 		return await this.prisma.product.findFirst({ where: { id: id } });
 	}
 	public async create(dataProducts: IProduct): Promise<IProduct> {
+		console.log('criando');
 		return await this.prisma.product.create({
 			data: dataProducts,
 		});
 	}
 	public async delete(id: string): Promise<void> {
 		await this.prisma.product.delete({ where: { id: id } });
+	}
+	public async findByName(name: string): Promise<IProduct | null> {
+		return await this.prisma.product.findFirst({ where: { name: name } });
 	}
 }

@@ -6,7 +6,14 @@ import { container } from 'tsyringe';
 export class UpdateProductController {
 	public async execute(req: Request, res: Response) {
 		const updateProduct = container.resolve(UpdateProductService);
-		const product = await updateProduct.execute(req.body);
+		const product = await updateProduct.execute({
+			id: req.body.id,
+			name: req.body.name,
+			description: req.body.description,
+			price: req.body.price,
+			image: req.file?.filename || '',
+			stock: req.body.stock,
+		});
 		return res.json(instanceToInstance(product));
 	}
 }

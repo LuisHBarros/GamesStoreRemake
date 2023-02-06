@@ -7,4 +7,5 @@ export interface IProductRepository {
 	create(dataProducts: ICreateProduct): Promise<IProduct>;
 	findAll(): Promise<IProduct[]>;
 	delete(id: string): Promise<void>;
+	findByName(name: string): Promise<IProduct | null>;
 }

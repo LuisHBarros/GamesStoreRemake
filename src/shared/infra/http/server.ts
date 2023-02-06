@@ -8,7 +8,7 @@ import cors from 'cors';
 import routes from './routes';
 import { AppError } from '../../errors/AppError';
 import rateLimiter from './middlewares/rateLimiter';
-
+import uploadConfig from '../../../config/upload';
 // import '../../../';
 
 const app = express();
@@ -21,10 +21,10 @@ app.use((req, res, next) => {
 	}
 });
 app.use(rateLimiter);
-
 app.use(routes);
 app.use(errors());
 
+app.use('/files', express.static(uploadConfig.directory));
 app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
 	if (error instanceof AppError)
 		return res

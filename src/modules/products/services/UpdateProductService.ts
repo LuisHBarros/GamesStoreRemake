@@ -5,6 +5,9 @@ import { IProduct } from '../domain/models/IProduct';
 import { IUpdateProduct } from '../domain/models/IUpdateProduct';
 import { AppError } from '../../../shared/errors/AppError';
 import { ICache } from '../../../shared/providers/models/ICache';
+import uploadConfig from '../../../config/upload';
+import path from 'path';
+import fs from 'fs';
 
 @injectable()
 export class UpdateProductService {
@@ -17,6 +20,11 @@ export class UpdateProductService {
 	public async execute(data: IUpdateProduct): Promise<IProduct | null> {
 		const product = await this.productsRepository.findById(data.id);
 		if (!product) throw new AppError('This product does not exist', 404);
+		if (data.image) {
+			const productImagePath = path.join(uploadConfig.directory, data.image);
+			if (await fs.promises.stat(productImagePath))
+				await fs.promises.unlink(productImagePath);
+		}
 		await this.cacheService.invalidate('api-vendas_PRODUCT_LIST');
 		return await this.productsRepository.save(data);
 	}
