@@ -4,6 +4,11 @@ import { IProduct } from '../../models/IProduct';
 import { IProductRepository } from '../IProductsRepository';
 
 export class FakeProductRepository implements IProductRepository {
+	async findByName(name: string): Promise<IProduct | null> {
+		const product = this.product.find(product => product.name === name);
+		if (!product) return null;
+		return product;
+	}
 	async findAll(): Promise<IProduct[]> {
 		return this.product;
 	}
@@ -12,7 +17,14 @@ export class FakeProductRepository implements IProductRepository {
 		const findIndex = this.product.findIndex(
 			product => product.id === dataProducts.id,
 		);
-		this.product[findIndex] = dataProducts;
+		this.product[findIndex] = {
+			description: dataProducts.description,
+			name: dataProducts.name,
+      price: dataProducts.price,
+      stock: dataProducts.stock,
+			image: dataProducts.image,
+			id: dataProducts.id,
+    };
 		return this.product[findIndex];
 	}
 	public async findById(id: string): Promise<IProduct | null> {

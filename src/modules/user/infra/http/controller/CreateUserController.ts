@@ -11,6 +11,6 @@ export class CreateUserController {
 
 		const user = await createUser.execute({ name, email, password, adm });
 
-		return res.json(instanceToInstance(user));
+		return res.json(instanceToInstance(user)).status(201);
 	}
 }

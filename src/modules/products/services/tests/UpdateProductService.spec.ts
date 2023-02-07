@@ -27,7 +27,7 @@ describe('update an product', () => {
 			name: 'test product',
 			price: 100,
 			description: 'test product description',
-			image: 'test product image',
+			image: '',
 			stock: 10,
 		});
 		const updatedProduct = await updateProduct.execute({
@@ -35,7 +35,7 @@ describe('update an product', () => {
 			name: 'updated product',
 			price: 100,
 			description: 'test product description',
-			image: 'test product image',
+			image: '',
 			stock: 10,
 		});
 		//@ts-ignore
@@ -48,7 +48,7 @@ describe('update an product', () => {
 				name: 'test product',
 				price: 100,
 				description: 'test product description',
-				image: 'test product image',
+				image: '',
 				stock: 10,
 			}),
 		).rejects.toEqual(new AppError('This product does not exist', 404));

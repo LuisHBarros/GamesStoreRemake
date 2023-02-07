@@ -10,8 +10,7 @@ export class LogoutUserController {
 		const authHeader = req.headers.authorization;
 		if (!authHeader) throw new AppError('Missing authorization header', 401);
 		const [, token] = authHeader.split(' ');
-		const id = '';
-		const response = await service.execute(token, id);
+		const response = await service.execute(token, req.user.id);
 		return res.json(instanceToInstance(response));
 	}
 }

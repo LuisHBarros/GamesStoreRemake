@@ -30,7 +30,7 @@ describe('delete an product', () => {
 			name: 'test product',
 			price: 100,
 			description: 'test product description',
-			image: 'test product image',
+			image: '',
 			stock: 10,
 		});
 		await deleteProduct.execute({ id: product.id });

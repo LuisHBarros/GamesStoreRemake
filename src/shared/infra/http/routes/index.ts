@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import usersRouter from '../../../../modules/user/infra/http/routes';
 import productRouter from '../../../../modules/products/infra/http/routes';
 import paymentRouter from '../../../../modules/payments/infra/http/routes';
+import usersRouter from '../../../../modules/user/infra/http/routes';
 
 const routes = Router();
 routes.get('/', (req, res) => {

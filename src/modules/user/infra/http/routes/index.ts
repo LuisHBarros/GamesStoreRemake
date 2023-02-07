@@ -1,6 +1,5 @@
 import { isAuthenticated } from '../../../../../shared/infra/http/middlewares/isAuthenticated';
 import { Router } from 'express';
-import { container } from 'tsyringe';
 import { CreateUserController } from '../controller/CreateUserController';
 import { ForgotPasswordUserController } from '../controller/ForgotPasswordUserController';
 import { LoginUserController } from '../controller/LoginUserController';
@@ -19,7 +18,7 @@ const ResetPassword = new ResetUserPasswordController();
 const isAuth = new isAuthenticated();
 
 usersRouter
-	.get('/', isAuth.execute, () => showUser.execute)
+	.get('/', isAuth.execute, showUser.execute)
 	.post(
 		'/register',
 		celebrate({

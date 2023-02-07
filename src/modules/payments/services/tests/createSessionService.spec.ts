@@ -40,6 +40,7 @@ describe('create a payment session', () => {
 			fakeDonePaymentsRepository,
 			fakeUsersRepository,
 			fakePaymentProvider,
+			fakeCacheProvider
 		);
 	});
 	it('should create a payment session', async () => {

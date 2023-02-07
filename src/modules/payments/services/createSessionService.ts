@@ -1,5 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 import { AppError } from '../../../shared/errors/AppError';
+import { ICache } from '../../../shared/providers/models/ICache';
 import { IProductRepository } from '../../products/domain/repositories/IProductsRepository';
 import { IUsersRepository } from '../../user/domain/repositories/IUsersRepository';
 import { ICreateSession } from '../domain/models/ICreateSession';
@@ -19,6 +20,8 @@ export class CreateSessionService {
 		private userRepository: IUsersRepository,
 		@inject('PaymentProvider')
 		private paymentProvider: IPaymentProvider,
+		@inject('CacheService')
+		private cacheService: ICache,
 	) {}
 	public async execute(data: ICreateSession, user_id: string): Promise<any> {
 		const line_items = await Promise.all(
@@ -57,13 +60,16 @@ export class CreateSessionService {
 				subtotal: session.amount_subtotal || 0,
 				total: session.amount_total || 0,
 			});
+			await this.cacheService.invalidate('api-vendas-PRODUCT_LIST');
+
 			return session;
 		} catch (error: any) {
-			console.log(error);
 			throw new AppError(error);
 		}
 	}
 	private async search(data: IProductWithQuantity): Promise<ILine_items> {
+		const link = process.env.API_URL;
+		const port = process.env.PORT;
 		var product = await this.productRepository.findById(data.id);
 		if (!product) throw new AppError('product not found', 404);
 		if (data.quantity > product.stock)
@@ -81,7 +87,8 @@ export class CreateSessionService {
 				currency: 'BRL',
 				product_data: {
 					name: product.name,
-					images: [product.image],
+					//trocar images pelo link da biblioteca online
+					images: ['https://m.media-amazon.com/images/I/81qQogg53aL.jpg'],
 					description: product.description,
 				},
 				unit_amount: product.price * 100,

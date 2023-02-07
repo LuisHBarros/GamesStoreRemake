@@ -26,6 +26,14 @@ export class UpdateProductService {
 				await fs.promises.unlink(productImagePath);
 		}
 		await this.cacheService.invalidate('api-vendas_PRODUCT_LIST');
-		return await this.productsRepository.save(data);
+		if(data.image === '') data.image = product.image
+		return await this.productsRepository.save({
+			id: data.id,
+			stock: data.stock,
+			description: data.description,
+			image: data.image,
+			name: data.name,
+			price: data.price,
+		});;
 	}
 }

@@ -20,7 +20,6 @@ export class RedisCache implements ICache {
 	public async invalidate(key: string): Promise<boolean> {
 		try {
 			await this.client.del(key);
-			console.log('cache apagado');
 			return true;
 		} catch (error) {
 			throw new AppError('' + error);

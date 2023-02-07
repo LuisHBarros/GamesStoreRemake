@@ -13,8 +13,7 @@ export class LogoutUserService {
 	public async execute(token: string, user_id: string) {
 		const time = 60 * 60 * 2;
 		try {
-			console.log('adicionando token');
-			await add(`${'token'}-${'user_id'}`, token, time);
+			await add(`${token}-${user_id}`, token, time);
 			return 'the blacklist has been updated';
 		} catch (e) {
 			//@ts-ignore

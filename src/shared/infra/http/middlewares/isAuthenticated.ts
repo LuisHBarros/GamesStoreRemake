@@ -16,21 +16,25 @@ export class isAuthenticated {
 		next: NextFunction,
 	): Promise<void> {
 		const authHeader = req.headers.authorization;
-		if (!authHeader) throw new AppError('Missing authorization header', 401);
-		const [, token] = authHeader.split(' ');
+
+		if (!authHeader) {
+			throw new AppError('JTW Token is missing.');
+		}
+
+		const [, token]: string[] = authHeader.split(' ');
+
 		try {
 			const decodedToken = verify(token, authConfig.token.secret);
 			const { sub } = decodedToken as ITokenPayload;
+
 			req.user = {
 				id: sub,
 			};
-			const blacklist = await search(`${'token'}-${'user_id'}`);
-			if (blacklist === token) {
-				throw Error('Token in blacklist');
-			}
+			if (await search(`${token}-${req.user.id}`))
+				throw new Error('Token on blacklist');
 			return next();
 		} catch (e) {
-			throw new AppError('' + e, 401);
+			throw new AppError(`${e}`, 401);
 		}
 	}
 }

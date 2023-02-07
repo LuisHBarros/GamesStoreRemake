@@ -44,6 +44,7 @@ describe('create a payment session', () => {
 			fakeDonePaymentsRepository,
 			fakeUsersRepository,
 			fakePaymentProvider,
+			fakeCacheProvider
 		);
 		listUserPaymentsService = new ListUserPaymentsService(
 			fakeDonePaymentsRepository,

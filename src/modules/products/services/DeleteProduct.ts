@@ -19,12 +19,12 @@ export class DeleteProductService {
 	public async execute(data: IDeleteProductService): Promise<void> {
 		const product = await this.productsRepository.findById(data.id);
 		if (!product) throw new AppError('This product does not exist', 404);
-		if (product.image) {
+		if (product.image !== '') {
 			const productImagePath = path.join(uploadConfig.directory, product.image);
 			if (await fs.promises.stat(productImagePath))
 				await fs.promises.unlink(productImagePath);
 		}
-		await this.cacheService.invalidate('api-vendas_PRODUCT_LIST');
+		await this.cacheService.invalidate('api-vendas-PRODUCT_LIST');
 		await this.productsRepository.delete(data.id);
 	}
 }

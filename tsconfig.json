@@ -8,15 +8,17 @@
         "lib": [
             "esnext"
         ],
-        
+
         "esModuleInterop": true,
         "removeComments": true,
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "moduleResolution": "node",
         "typeRoots": [
-            "./node_modules/@types",
-            "./src/@types"
+              "./src/@types",
+  "./custom_typings",
+  "./@types",
+  "./node_modules/@types"
         ],
 				// "baseUrl": "./",
     // "paths": {

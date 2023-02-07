@@ -6,7 +6,6 @@ export async function add(key: string, value: string, expires: number) {
 	try {
 		const client = new Redis(RedisConfig.config.redis);
 		await client.set(key, value, 'EX', expires);
-		console.log('ok');
 	} catch (e) {
 		//@ts-ignore
 		throw new AppError(`${e}`);

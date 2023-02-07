@@ -1,6 +1,7 @@
 import { IProductRepository } from '../../domain/repositories/IProductsRepository';
 import { PrismaClient, Product } from '@prisma/client';
 import { IProduct } from '../../domain/models/IProduct';
+import { AppError } from '../../../../shared/errors/AppError';
 
 export default class ProductsRepository implements IProductRepository {
 	private prisma = new PrismaClient();
@@ -8,17 +9,21 @@ export default class ProductsRepository implements IProductRepository {
 	public async findAll(): Promise<IProduct[]> {
 		return await this.prisma.product.findMany();
 	}
-	public async save(dataProducts: IProduct): Promise<Product> {
-		return await this.prisma.product.update({
-			where: { id: dataProducts.id },
-			data: dataProducts,
-		});
+	public async save(dataProducts: IProduct): Promise<Product | null> {
+		try {
+			return await this.prisma.product.update({
+
+				where: { id: dataProducts.id },
+				data: dataProducts
+			});
+		} catch (e) {
+			throw new AppError(`${e}`)
+		}
 	}
 	public async findById(id: string): Promise<IProduct | null> {
 		return await this.prisma.product.findFirst({ where: { id: id } });
 	}
 	public async create(dataProducts: IProduct): Promise<IProduct> {
-		console.log('criando');
 		return await this.prisma.product.create({
 			data: dataProducts,
 		});

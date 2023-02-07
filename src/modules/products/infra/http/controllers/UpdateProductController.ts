@@ -7,7 +7,7 @@ export class UpdateProductController {
 	public async execute(req: Request, res: Response) {
 		const updateProduct = container.resolve(UpdateProductService);
 		const product = await updateProduct.execute({
-			id: req.body.id,
+			id: req.params.id,
 			name: req.body.name,
 			description: req.body.description,
 			price: req.body.price,

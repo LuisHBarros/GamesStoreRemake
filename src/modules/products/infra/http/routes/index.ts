@@ -1,4 +1,3 @@
-import { isAuthenticated } from '../../../../../shared/infra/http/middlewares/isAuthenticated';
 import { Request, Router, NextFunction, Response, request } from 'express';
 import { CreateProductController } from '../controllers/CreateProductController';
 import { UpdateProductController } from '../controllers/UpdateProductController';
@@ -9,6 +8,7 @@ import { celebrate, Joi, Segments } from 'celebrate';
 import { isAdministrator } from '../../../../../shared/infra/http/middlewares/isAdministrator';
 import uploadConfig from '../../../../../config/upload';
 import multer from 'multer';
+import { isAuthenticated } from '../../../../../shared/infra/http/middlewares/isAuthenticated';
 
 const productRouter = Router();
 const createProduct = new CreateProductController();
@@ -34,7 +34,9 @@ productRouter
 		upload.single('image'),
 		createProduct.execute,
 	)
-	.put('/:id', isAuth.execute, isAdm.execute, checkImage, UpdateProduct.execute)
+	.put('/:id', isAuth.execute, isAdm.execute, checkImage, (req: Request, res: Response) => {
+		UpdateProduct.execute(req, res)
+	})
 	.delete(
 		'/:id',
 		celebrate({ [Segments.PARAMS]: { id: Joi.string().uuid().required() } }),
@@ -45,8 +47,9 @@ productRouter
 
 export default productRouter;
 
-function checkImage(req: Request) {
+function checkImage(req: Request, res: Response, next: NextFunction) {
 	if (req.file) {
 		upload.single('image');
 	}
+	next();
 }
