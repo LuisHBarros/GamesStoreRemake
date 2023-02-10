@@ -10,15 +10,15 @@ export default class ProductsRepository implements IProductRepository {
 		return await this.prisma.product.findMany();
 	}
 	public async save(dataProducts: IProduct): Promise<Product | null> {
-		try {
-			return await this.prisma.product.update({
-
+		console.log(dataProducts);
+		return await this.prisma.product
+			.update({
 				where: { id: dataProducts.id },
-				data: dataProducts
+				data: dataProducts,
+			})
+			.catch(e => {
+				throw new Error('Error on save', e);
 			});
-		} catch (e) {
-			throw new AppError(`${e}`)
-		}
 	}
 	public async findById(id: string): Promise<IProduct | null> {
 		return await this.prisma.product.findFirst({ where: { id: id } });

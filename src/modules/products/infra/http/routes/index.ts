@@ -18,7 +18,7 @@ const ListProduct = new ListProductController();
 const DeleteProduct = new DeleteProductController();
 const isAuth = new isAuthenticated();
 const isAdm = new isAdministrator();
-const upload = multer(uploadConfig);
+const upload = multer(uploadConfig.multer);
 
 productRouter
 	.get('/', ListProduct.execute)
@@ -34,9 +34,15 @@ productRouter
 		upload.single('image'),
 		createProduct.execute,
 	)
-	.put('/:id', isAuth.execute, isAdm.execute, checkImage, (req: Request, res: Response) => {
-		UpdateProduct.execute(req, res)
-	})
+	.put(
+		'/:id',
+		isAuth.execute,
+		isAdm.execute,
+		upload.single('image'),
+		(req: Request, res: Response) => {
+			UpdateProduct.execute(req, res);
+		},
+	)
 	.delete(
 		'/:id',
 		celebrate({ [Segments.PARAMS]: { id: Joi.string().uuid().required() } }),
@@ -47,9 +53,9 @@ productRouter
 
 export default productRouter;
 
-function checkImage(req: Request, res: Response, next: NextFunction) {
-	if (req.file) {
-		upload.single('image');
-	}
-	next();
-}
+// function checkImage(req: Request, res: Response, next: NextFunction) {
+// 	if (req.file) {
+// 		upload.single('image');
+// 	}
+// 	next();
+// }

@@ -4,10 +4,15 @@ import { AppError } from '../errors/AppError';
 import { ICache } from '../providers/models/ICache';
 
 export class RedisCache implements ICache {
+	//@ts-ignore
 	private client: RedisClient;
+	private connected = false;
 
 	constructor() {
-		this.client = new Redis(redisConfig.config.redis);
+		if (!this.connected) {
+			this.client = new Redis(redisConfig.config.redis);
+			this.connected = true;
+		}
 	}
 	public async save(key: string, value: any): Promise<void> {
 		await this.client.set(key, JSON.stringify(value));

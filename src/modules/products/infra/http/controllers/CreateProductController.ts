@@ -6,8 +6,8 @@ import ProductsRepository from '../../prisma/ProductsRepository';
 
 export class CreateProductController {
 	public async execute(req: Request, res: Response) {
-		const createProduct = container.resolve(CreateProductService);
-		const product = await createProduct.execute({
+		const createProductService = container.resolve(CreateProductService);
+		const product = await createProductService.execute({
 			name: req.body.name,
 			description: req.body.description,
 			price: req.body.price,

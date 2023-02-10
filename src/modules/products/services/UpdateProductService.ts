@@ -8,7 +8,8 @@ import { ICache } from '../../../shared/providers/models/ICache';
 import uploadConfig from '../../../config/upload';
 import path from 'path';
 import fs from 'fs';
-
+import DiskStorageProvider from '../../../shared/providers/StorageProvider/DiskStorageProvider';
+import S3StorageProvider from '../../../shared/providers/StorageProvider/S3StorageProvider';
 @injectable()
 export class UpdateProductService {
 	constructor(
@@ -18,22 +19,27 @@ export class UpdateProductService {
 		private cacheService: ICache,
 	) {}
 	public async execute(data: IUpdateProduct): Promise<IProduct | null> {
+		var fileName = '';
 		const product = await this.productsRepository.findById(data.id);
 		if (!product) throw new AppError('This product does not exist', 404);
-		if (data.image) {
-			const productImagePath = path.join(uploadConfig.directory, data.image);
-			if (await fs.promises.stat(productImagePath))
-				await fs.promises.unlink(productImagePath);
+		await this.cacheService.invalidate('api-vendas-PRODUCT_LIST');
+		if (uploadConfig.driver === 's3') {
+			const storageProvider = new S3StorageProvider();
+			await storageProvider.deleteFile(product.image);
+			fileName = await storageProvider.saveFile(data.image);
+		} else {
+			const storageProvider = new DiskStorageProvider();
+			await storageProvider.deleteFile(product.image);
+			fileName = await storageProvider.saveFile(data.image);
 		}
-		await this.cacheService.invalidate('api-vendas_PRODUCT_LIST');
-		if(data.image === '') data.image = product.image
+		console.log('All right!', fileName);
 		return await this.productsRepository.save({
 			id: data.id,
-			stock: data.stock,
+			stock: Number(data.stock),
 			description: data.description,
-			image: data.image,
+			image: fileName,
 			name: data.name,
-			price: data.price,
-		});;
+			price: Number(data.price),
+		});
 	}
 }
