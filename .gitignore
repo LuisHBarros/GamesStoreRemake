@@ -4,7 +4,8 @@ coverage
 node_modules/
 build/
 temp/
-.env
+.env.development
+.env.test
 ormconfig.json
 dist
 *.txt
